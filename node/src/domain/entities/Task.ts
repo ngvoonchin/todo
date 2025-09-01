@@ -1,9 +1,9 @@
 export class Task {
 	constructor(public readonly id: string, public title: string, public description: string, public completed: boolean, public readonly createdAt: Date, public readonly updatedAt: Date) {}
 
-	static create(title: string, description: string = "", id?: string, createdAt?: Date, updatedAt?: Date): Task {
+	static create(title: string, description: string = "", id: string, createdAt?: Date, updatedAt?: Date): Task {
 		const now = new Date()
-		return new Task(id || crypto.randomUUID(), title, description, false, createdAt || now, updatedAt || now)
+		return new Task(id, title, description, false, createdAt || now, updatedAt || now)
 	}
 
 	markAsCompleted(): Task {

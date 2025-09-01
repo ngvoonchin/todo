@@ -1,5 +1,6 @@
 import { Task } from "../../domain/entities/Task"
 import { TaskRepository } from "../../domain/repositories/TaskRepository"
+import { IdGenerator } from "../../domain/services/IdGenerator"
 
 export class ListTasks {
 	constructor(private taskRepository: TaskRepository) {}
@@ -10,11 +11,14 @@ export class ListTasks {
 }
 
 export class CreateTask {
-	constructor(private taskRepository: TaskRepository) {}
+	constructor(private taskRepository: TaskRepository, private idGenerator: IdGenerator) {}
 
 	async execute(title: string, description?: string): Promise<Task> {
+		// Generate ID using infrastructure service
+		const id = this.idGenerator.generate()
+
 		// Factory method ensures proper initialization
-		const newTask = Task.create(title, description)
+		const newTask = Task.create(title, description || "", id)
 
 		return this.taskRepository.create(newTask.title, newTask.description)
 	}
