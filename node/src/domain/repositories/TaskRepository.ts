@@ -1,9 +1,9 @@
-import { Task } from "../models/Task"
+import { Task } from "../entities/Task"
 
 export interface TaskRepository {
-  create(task: Omit<Task, "id" | "createdAt" | "updatedAt">): Promise<Task>
-  findById(id: string): Promise<Task | null>
-  findAll(): Promise<Task[]>
-  update(id: string, updates: Partial<Task>): Promise<Task | null>
-  delete(id: string): Promise<boolean>
+	create(title: string, description?: string): Promise<Task>
+	findById(id: string): Promise<Task | null>
+	findAll(): Promise<Task[]>
+	update(id: string, updates: { title?: string; description?: string; completed?: boolean }): Promise<Task | null>
+	delete(id: string): Promise<boolean>
 }
