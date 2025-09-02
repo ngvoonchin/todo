@@ -3,6 +3,7 @@ import { ListTasks, CreateTask, CompleteTask, GetOverdueTasks, UpdateTask, Delet
 import { TaskRepository } from "../../domain/repositories/TaskRepository"
 import { IdGenerator } from "../../domain/services/IdGenerator"
 import { ApiResponse } from "../../domain/entities/ApiResponse"
+import { QueryParser } from "../helpers/queryParser"
 import { logger } from "../../infrastructure/logging/logger"
 // import { TaskService } from "../../domain/services/TaskService";
 
@@ -17,14 +18,20 @@ export class TaskController {
 			logger.info("Getting all tasks", {
 				method: req.method,
 				url: req.url,
+				query: req.query,
 				userAgent: req.get("User-Agent")
 			})
 
+			// Parse query options from request
+			const queryOptions = QueryParser.parseQueryOptions(req)
+			console.log("Parsed queryOptions:", JSON.stringify(queryOptions, null, 2))
+
 			const useCase = new ListTasks(this.taskRepository)
-			const tasks = await useCase.execute()
+			const tasks = await useCase.execute(queryOptions)
 
 			logger.info("Successfully retrieved tasks", {
 				taskCount: tasks.length,
+				queryOptions,
 				method: req.method,
 				url: req.url
 			})

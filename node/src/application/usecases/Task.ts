@@ -1,12 +1,13 @@
 import { Task } from "../../domain/entities/Task"
+import { QueryOptions } from "../../domain/entities/Query"
 import { TaskRepository } from "../../domain/repositories/TaskRepository"
 import { IdGenerator } from "../../domain/services/IdGenerator"
 
 export class ListTasks {
 	constructor(private taskRepository: TaskRepository) {}
 
-	async execute(): Promise<Task[]> {
-		return this.taskRepository.findAll()
+	async execute(options?: QueryOptions): Promise<Task[]> {
+		return this.taskRepository.findAll(options)
 	}
 }
 

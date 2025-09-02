@@ -17,9 +17,10 @@ const idGenerator = new UuidGenerator()
 const taskController = new TaskController(taskRepository, idGenerator)
 
 // Routes
-// router.post("/", taskController.createTask);
 router.get("/", taskController.getAllTasks)
 router.get("/:id", taskController.getTaskById)
 router.post("/", taskController.createTask)
+router.put("/:id", taskController.updateTask)
+router.delete("/:id", taskController.completeTask)
 
 export default router
