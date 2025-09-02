@@ -1,0 +1,1 @@
+import { MigrationInterface } from "typeorm"
